@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SwapiConsumerService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">b2w.starwarsapi.service</a>
+</div>
+
+<h1>Coverage Summary for Class: SwapiConsumerService (b2w.starwarsapi.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SwapiConsumerService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SwapiConsumerService$MockitoMock$74219242</td>
+  </tr>
+  <tr>
+    <td class="name">SwapiConsumerService$MockitoMock$74219242$auxiliary$2RZfS1vB</td>
+  </tr>
+  <tr>
+    <td class="name">SwapiConsumerService$MockitoMock$74219242$auxiliary$c2TAbgtc</td>
+  </tr>
+  <tr>
+    <td class="name">SwapiConsumerService$MockitoMock$74219242$auxiliary$wVbG8EKd</td>
+  </tr>
+  <tr>
+    <td class="name">SwapiConsumerService$MockitoMock$74219242$auxiliary$Zd2NTz24</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package b2w.starwarsapi.service;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import b2w.starwarsapi.exception.SwapiResponseException;
+<i class="no-highlight">4</i>&nbsp;import com.google.gson.Gson;
+<i class="no-highlight">5</i>&nbsp;import com.google.gson.JsonObject;
+<i class="no-highlight">6</i>&nbsp;import org.apache.http.HttpResponse;
+<i class="no-highlight">7</i>&nbsp;import org.apache.http.client.methods.HttpGet;
+<i class="no-highlight">8</i>&nbsp;import org.apache.http.impl.client.HttpClientBuilder;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.stereotype.Service;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;import java.io.BufferedReader;
+<i class="no-highlight">12</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">13</i>&nbsp;import java.io.InputStreamReader;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;@Service
+<b class="fc"><i class="no-highlight">16</i>&nbsp;public class SwapiConsumerService {</b>
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    private static final String URI = &quot;https://swapi.dev/api/planets/?search=&quot;;
+<i class="no-highlight">19</i>&nbsp;    private static final String BLANK_SPACE_ENCODING = &quot;%20&quot;;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    public HttpGet buildPlanetRequest(String planetName) {
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        return new HttpGet(URI + correctBlankSpaceEncoding(planetName));</b>
+<i class="no-highlight">23</i>&nbsp;    }
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    private String correctBlankSpaceEncoding(String planetName) {
+<b class="fc"><i class="no-highlight">26</i>&nbsp;        return planetName.replace(&quot; &quot;, BLANK_SPACE_ENCODING);</b>
+<i class="no-highlight">27</i>&nbsp;    }
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;    public JsonObject request(HttpGet getRequest) throws IOException {
+<i class="no-highlight">30</i>&nbsp;
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        var httpClient = HttpClientBuilder.create().build();</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        getRequest.addHeader(&quot;accept&quot;, &quot;application/json&quot;);</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        HttpResponse response = httpClient.execute(getRequest);</b>
+<i class="no-highlight">34</i>&nbsp;
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        validateResponse(response);</b>
+<i class="no-highlight">36</i>&nbsp;
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        var inputStreamReader = new InputStreamReader((response.getEntity().getContent()));</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        var bufferedReader = new BufferedReader(inputStreamReader);</b>
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;        String line;
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        var stringBuilder = new StringBuilder();</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        while ((line = bufferedReader.readLine()) != null) {</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;            stringBuilder.append(line);</b>
+<i class="no-highlight">44</i>&nbsp;        }
+<i class="no-highlight">45</i>&nbsp;
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        JsonObject jsonObject = deserialize(stringBuilder.toString());</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        bufferedReader.close();</b>
+<i class="no-highlight">48</i>&nbsp;
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        return jsonObject;</b>
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    private void validateResponse(HttpResponse response) {
+<b class="fc"><i class="no-highlight">53</i>&nbsp;        if (response.getStatusLine().getStatusCode() != 200) {</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;            throw new SwapiResponseException(String.format(&quot;Falha ao buscar planeta em SWAPI. HTTP error code : %s&quot;, response.getStatusLine().getStatusCode()));</b>
+<i class="no-highlight">55</i>&nbsp;        }
+<i class="no-highlight">56</i>&nbsp;    }
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    private JsonObject deserialize(String json) {
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        var gson = new Gson();</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;        return gson.fromJson(json, JsonObject.class);</b>
+<i class="no-highlight">61</i>&nbsp;    }
+<i class="no-highlight">62</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-09 08:27</div>
+</div>
+</body>
+</html>
