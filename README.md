@@ -7,3 +7,4 @@ Pontos de atenção:
 - Foi feito um endpoint para atualizar a quantidade de aparições nos filmes consultando novamente a SWAPI para todos os registros gravados localmente.
  PATCH : /api/planets/update/filmsAppearance
 - Para rodar os testes de integração é necessário ter o Docker instalado na máquina. Por causa do uso do TestContainers.
+- Há um relatório de cobertura de testes na pasta test-coverage-report, arquivo index.html.
